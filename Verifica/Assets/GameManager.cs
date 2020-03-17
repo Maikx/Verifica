@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         }
         Setup();
     }
-    #region GameSm Trigger Delegate
+    
     /// <summary>
     /// Delegato che gestisce gli eventi lanciati dall'esterno per triggerare il cambio di stato della GameStateMachine
     /// </summary>
@@ -34,20 +34,11 @@ public class GameManager : MonoBehaviour
 
     //public static GameSMTriggerDelegate Setup;
 
-    public static GameSMTriggerDelegate GoToMainMenu;
+    public static GameSMTriggerDelegate Idle;
+    public static GameSMTriggerDelegate Walk;
+    public static GameSMTriggerDelegate Run;
+    public static GameSMTriggerDelegate Crouch;
 
-    public static GameSMTriggerDelegate GoToOption;
-
-    public static GameSMTriggerDelegate GoTOGamePlay;
-    #endregion
-
-    #region GamePlay Trigger Delegate
-    public delegate void GamePlayTriggerDelegate();
-
-    public static GamePlayTriggerDelegate RemoveLife;
-    public static GamePlayTriggerDelegate AddLife;
-
-    #endregion
 
     public static void Setup()
     {
@@ -58,28 +49,22 @@ public class GameManager : MonoBehaviour
     {
         EventSetup();
     }
-    /// <summary>
-    /// Funzione che si occupa di iscriversi a N eventi in base alla tipologia di struttura.
-    /// </summary>
     public static void EventSetup()
     {
-        GoToMainMenu += singleton.HandleGoToMainMenu;
+        
     }
 
-    /// <summary>
-    /// Funzione che gestisce l'evento GoToMainMenu
-    /// </summary>
-    void HandleGoToMainMenu()
+    void HandleGoToIdle()
     {
-        if (!singleton.GameSM.GetCurrentAnimatorStateInfo(0).IsName("MainMenu"))
+        if (!singleton.GameSM.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
-            singleton.GameSM.SetTrigger("GoToMainMenu");
+            
         }
     }
 
     private void OnDisable()
     {
-        GoToMainMenu -= singleton.HandleGoToMainMenu;
+        Idle -= singleton.HandleGoToIdle;
     }
 
 }
