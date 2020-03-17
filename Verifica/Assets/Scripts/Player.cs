@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 public float rotationVelocity;
-    public float walk, run;
+public float walk, run;
+public bool isCrouching = false;
 public bool isRunning = false;
 
 
@@ -15,7 +16,6 @@ public bool isRunning = false;
     {
        
     }
-
 
     void Rotate(float direction)
     {
@@ -41,18 +41,22 @@ public bool isRunning = false;
     if (Input.GetKey(KeyCode.S)) Walk(-1);
     if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
         {
-
             isRunning = true;
             Run(1);
-            print("Running");
-
         }
         else
         {
-
             isRunning = false;
-            print("Not Running");
-
+        }
+    if (Input.GetKey(KeyCode.LeftControl))
+        {
+            isCrouching = true;
+            cController.height = 1;
+        }
+        else 
+        {
+            isCrouching = false;
+            cController.height = 2;
         }
     }
 
