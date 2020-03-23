@@ -5,16 +5,23 @@ using UnityEngine;
 
 public class RunState : StateMachineBehaviour
 {
+    public bool isRunning;
+    Transform transform;
+
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Farccio qualcosa inerente al Main menu : ES : Attivo Ui Menu
+        Player player = transform.GetComponent<Player>();
+        isRunning = player.isRunning;
     }
 
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        {
+            Run(animator);
+        }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -33,4 +40,8 @@ public class RunState : StateMachineBehaviour
     // override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     // {
     //     // Implement code that sets up animation IK (inverse kinematics)
+    void Run(Animator aAnimator)
+    {
+        aAnimator.SetTrigger("Run");
+    }
 }

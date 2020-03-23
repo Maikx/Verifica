@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class CrouchState : StateMachineBehaviour
 {
+    Transform transform;
+    public bool isCrouching;
+
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Farccio qualcosa inerente al Main menu : ES : Attivo Ui Menu
+        Player player = transform.GetComponent<Player>();
+        isCrouching = player.isCrouching;
     }
 
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            Crouch(animator);
+        }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -22,14 +29,18 @@ public class CrouchState : StateMachineBehaviour
         //Faccio qualcosa : Es : Disattivo Ui Main Menu e attivo UI Gameplay
     }
 
-   //// OnStateMove is called right after Animator.OnAnimatorMove()
-   // override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-   // {
-   //     // Implement code that processes and affects root motion
-   // }
+    //// OnStateMove is called right after Animator.OnAnimatorMove()
+    // override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    // {
+    //     // Implement code that processes and affects root motion
+    // }
 
-// //OnStateIK is called right after Animator.OnAnimatorIK()
-// override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-// {
-//     // Implement code that sets up animation IK (inverse kinematics)
+    // //OnStateIK is called right after Animator.OnAnimatorIK()
+    // override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    // {
+    //     // Implement code that sets up animation IK (inverse kinematics)
+    void Crouch(Animator aAnimator)
+    {
+        aAnimator.SetTrigger("Crouch");
+    }
 }

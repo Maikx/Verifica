@@ -25,14 +25,6 @@ public class WalkState : StateMachineBehaviour
         if (Input.GetKey(KeyCode.D)) Rotate(1);
         if (Input.GetKey(KeyCode.W)) Walk(1);
         if (Input.GetKey(KeyCode.S)) Walk(-1);
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
-        {
-            Run(animator);
-        }
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            Crouch(animator);
-        }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -58,14 +50,6 @@ public class WalkState : StateMachineBehaviour
     void Walk(int speed)
     {
         cController.Move(transform.forward * speed * walk * Time.deltaTime);
-    }
-    void Run(Animator aAnimator)
-    {
-        aAnimator.SetTrigger("Run");
-    }
-    void Crouch(Animator aAnimator)
-    {
-        aAnimator.SetTrigger("Crouch");
     }
 }
 
