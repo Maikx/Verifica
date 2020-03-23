@@ -4,16 +4,35 @@ using UnityEngine;
 
 public class WalkState : StateMachineBehaviour
 {
+    Transform transform;
+    public float rotationVelocity;
+    public float walk;
+    CharacterController cController;
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Farccio qualcosa inerente al Main menu : ES : Attivo Ui Menu
+        transform = animator.transform;
+        Player player = transform.GetComponent<Player>();
+        rotationVelocity = player.rotationVelocity;
+        walk = player.walk;
+        cController = player.cController;
     }
 
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (Input.GetKey(KeyCode.A)) Rotate(-1);
+        if (Input.GetKey(KeyCode.D)) Rotate(1);
+        if (Input.GetKey(KeyCode.W)) Walk(1);
+        if (Input.GetKey(KeyCode.S)) Walk(-1);
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        {
+            Run(animator);
+        }
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            Crouch(animator);
+        }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -32,5 +51,21 @@ public class WalkState : StateMachineBehaviour
     // override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     // {
     //     // Implement code that sets up animation IK (inverse kinematics)
+    void Rotate(float direction)
+    {
+        transform.Rotate(Vector3.up * rotationVelocity * Time.deltaTime * direction);
+    }
+    void Walk(int speed)
+    {
+        cController.Move(transform.forward * speed * walk * Time.deltaTime);
+    }
+    void Run(Animator aAnimator)
+    {
+        aAnimator.SetTrigger("Run");
+    }
+    void Crouch(Animator aAnimator)
+    {
+        aAnimator.SetTrigger("Crouch");
+    }
 }
 
